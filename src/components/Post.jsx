@@ -12,7 +12,7 @@ export function Post({ author, publishedAt, content }) {
     'Post muito legal!'
   ]);
 
-  const [newCommentText, setNewCommentText] = useState('')
+  const [newCommentText, setNewCommentText] = useState('');
 
   const publishedDateFormatted= format(publishedAt, "d 'de' LLLL 'às' HH:mm'h'", {
     locale: ptBR,
@@ -23,7 +23,7 @@ export function Post({ author, publishedAt, content }) {
     addSuffix: true
   })
 
-  function handleCreateNewComment() {
+  function handleCreateNewComment(event) {
     event.preventDefault()
 
     setComments([...comments, newCommentText]);
@@ -34,8 +34,12 @@ export function Post({ author, publishedAt, content }) {
     setNewCommentText(event.target.value);
   }
 
-  function deleteComment(comment) {
-    console.log('Deletar comentário ${comment}')
+  function deleteComment(commentToDelete) {
+    const commentsWithoutDeletedOne = comments.filter(comment => {
+      return comment !== commentToDelete;
+    })
+
+    setComments(commentsWithoutDeletedOne);
   }
 
   return (
@@ -88,7 +92,7 @@ export function Post({ author, publishedAt, content }) {
             onDeleteComment={deleteComment} 
           />
         )
-      })}
+      })} 
     </div>
   </article>
 )
